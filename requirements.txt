@@ -3,3 +3,5 @@ python-dotenv
 openai
 anthropic
 google-generativeai
+markdown
+xhtml2pdf
