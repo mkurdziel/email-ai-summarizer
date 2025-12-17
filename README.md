@@ -96,6 +96,7 @@ GEMINI_API_KEY=AIzA...
 | `--output-file-pdf FILE` | Save the generated summary as a PDF file. |
 | `--output-email EMAIL` | Email address to send the summary to. |
 | `--html-email` | Send the email as HTML (multipart/alternative) with plaintext fallback. |
+| `--template-file FILE` | Path to a Markdown file containing the summary prompt template. |
 
 ### Examples
 
@@ -127,6 +128,11 @@ python email_summarizer.py --output-email myemail@example.com
 **6. Send summary via email (HTML with Plaintext fallback):**
 ```bash
 python email_summarizer.py --output-email myemail@example.com --html-email
+```
+
+**7. Use a custom summary template:**
+```bash
+python email_summarizer.py --local-dir ./test_emails --template-file summary_template.md
 ```
 
 ## Examples

@@ -407,6 +407,7 @@ def main():
     parser.add_argument("--html-email", action="store_true", help="Send the email as HTML (with plaintext fallback)")
     parser.add_argument("--keep-unread", "-k", action="store_true", help="Keep emails as unread in the inbox after processing")
     parser.add_argument("--env-file", type=str, help="Path to a custom .env file")
+    parser.add_argument("--template-file", type=str, help="Path to a Markdown file containing the summary template/prompt")
     args = parser.parse_args()
 
     # Create output directory if it doesn't exist (basic check for MD/PDF paths)
@@ -418,6 +419,23 @@ def main():
 
     # Load settings after parsing arguments
     load_settings(args.env_file)
+
+    # Handle Template File Logic override
+    if args.template_file:
+        if os.path.exists(args.template_file):
+            try:
+                with open(args.template_file, 'r', encoding='utf-8') as f:
+                    template_content = f.read()
+                print(f"Using prompt pattern from template file: {args.template_file}")
+                # Update the global LLM_PROMPT (or we could pass it to summarizer, but global is used in classes)
+                global LLM_PROMPT
+                LLM_PROMPT = template_content
+            except Exception as e:
+                print(f"Error reading template file {args.template_file}: {e}")
+                return
+        else:
+            print(f"Error: Template file {args.template_file} does not exist.")
+            return
 
     try:
         summarizer = get_summarizer()
